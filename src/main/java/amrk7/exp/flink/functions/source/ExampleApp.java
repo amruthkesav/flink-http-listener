@@ -2,11 +2,14 @@ package amrk7.exp.flink.functions.source;
 
 import org.apache.flink.api.common.functions.MapFunction;
 import org.apache.flink.api.connector.sink.Sink;
+import org.apache.flink.shaded.curator4.org.apache.curator.framework.api.ACLProvider;
+import org.apache.flink.shaded.zookeeper3.org.apache.zookeeper.data.ACL;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.api.functions.sink.SinkFunction;
 import org.apache.flink.streaming.api.functions.source.SourceFunction;
 
+import java.util.List;
 import java.util.function.Function;
 
 public class ExampleApp {
@@ -43,7 +46,28 @@ public class ExampleApp {
 
     public static void main(String[] args) throws Exception {
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
-        DataStream<String> httpDataStream = env.addSource(new HttpSourceFunction(8080, new RequestTransformer()));
+        DataStream<String> httpDataStream = env.addSource(new HttpSourceFunction(
+                8090,
+                new RequestTransformer(),
+                new ZkRegistry(
+                        "localhost:2181",
+                        new ACLProvider() {
+                            @Override
+                            public List<ACL> getDefaultAcl() {
+                                return null;
+                            }
+
+                            @Override
+                            public List<ACL> getAclForPath(String s) {
+                                return null;
+                            }
+                        },
+                        10000,
+                        10000,
+                        30
+                )
+                )
+        );
 //        DataStream<String> httpDataStream = env.addSource(new SingleStringSource("hello"));
         httpDataStream
                 .map((MapFunction<String, String>) s -> "Hello " + s)

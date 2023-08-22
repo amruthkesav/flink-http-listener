@@ -16,9 +16,10 @@ public class HttpSourceFunction implements SourceFunction<String> {
     private final int port;
     private final RequestTransformer transformer;
 
-    public HttpSourceFunction(int port, RequestTransformer transformer) {
+    public HttpSourceFunction(int port, RequestTransformer transformer, ZkRegistry registry) throws Exception {
         this.port = port;
         this.transformer = transformer;
+        registry.addServerInstanceToAZkNamespace(getInstanceURI());
     }
 
     @Override
@@ -32,6 +33,10 @@ public class HttpSourceFunction implements SourceFunction<String> {
         } finally {
             server.stop();
         }
+    }
+
+    private String getInstanceURI() {
+        return "localhost:" + port + ";";
     }
 
     @Override
