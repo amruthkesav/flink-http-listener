@@ -10,6 +10,9 @@ import org.apache.flink.shaded.zookeeper3.org.apache.zookeeper.KeeperException;
 import org.apache.flink.shaded.zookeeper3.org.apache.zookeeper.WatchedEvent;
 import org.apache.flink.shaded.zookeeper3.org.apache.zookeeper.Watcher;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.nio.charset.Charset;
 import java.util.List;
 import java.util.Set;
@@ -17,6 +20,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 public class ZkRegistry {
+    private static final Logger LOG = LoggerFactory.getLogger(ZkRegistry.class);
 
     private CuratorFramework zooKeeperClient;
     private boolean deregisteredWithZooKeeper;
