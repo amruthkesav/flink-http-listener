@@ -41,6 +41,11 @@
       <artifactId>flink-clients_2.12</artifactId>
       <version>1.12.1</version>
     </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <scope>provided</scope>
+    </dependency>
   </dependencies>
 
   <build>

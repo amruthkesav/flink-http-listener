@@ -5,6 +5,9 @@ import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.AbstractHandler;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,8 +16,10 @@ import java.io.IOException;
 import java.util.function.Function;
 
 public class HttpSourceFunction implements SourceFunction<String> {
+    private static final Logger LOG = LoggerFactory.getLogger(HttpSourceFunction.class);
     private final int port;
     private final RequestTransformer transformer;
+    private Server server;
 
     public HttpSourceFunction(int port, RequestTransformer transformer, ZkRegistry registry) throws Exception {
         this.port = port;
@@ -24,7 +29,8 @@ public class HttpSourceFunction implements SourceFunction<String> {
 
     @Override
     public void run(SourceContext<String> ctx) throws Exception {
-        Server server = new Server(port);
+        LOG.info("Starting a server at port: " + port);
+        server = new Server(port);
         server.setHandler(new RequestHandler(transformer, ctx));
 
         try {
@@ -41,6 +47,13 @@ public class HttpSourceFunction implements SourceFunction<String> {
 
     @Override
     public void cancel() {
+        if (server!= null) {
+            try {
+                server.stop();
+            } catch (Exception e) {
+                LOG.error("Exception encountered while closing server: " + e.getCause());
+            }
+        }
     }
 
     private static class RequestHandler extends AbstractHandler {
