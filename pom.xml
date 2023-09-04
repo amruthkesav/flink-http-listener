@@ -46,6 +46,10 @@
       <artifactId>slf4j-api</artifactId>
       <scope>provided</scope>
     </dependency>
+    <dependency>
+      <groupId>com.uber.m3</groupId>
+      <artifactId>tally-m3</artifactId>
+    </dependency>
   </dependencies>
 
   <build>
