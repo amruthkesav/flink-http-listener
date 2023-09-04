@@ -23,3 +23,4 @@ ls /test/servers
 5. You should see `localhost:8090:00000...` with the above command
 6. Run the `HttpClient` now (Keep the Flink job running). The HttpClient will discover the http coordinates and publish few strings to the source function.
 7. The Flink job would have printed some stuff in console with 'Hello' prepended for every message
+8. To test the HttpMetricsReporter, run the `HttpClientExample`, the reporter will publish metrics to the HTTP server. (You can tune the configuration and view the results coming on the server console).
