@@ -1,4 +1,4 @@
-package amrk7.exp.flink.functions.source;
+package amrk7.exp.flink.functions.source.server;
 
 import java.io.Serializable;
 import java.util.function.Function;

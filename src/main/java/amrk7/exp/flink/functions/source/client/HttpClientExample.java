@@ -1,17 +1,11 @@
-package amrk7.exp.flink.functions.source;
+package amrk7.exp.flink.functions.source.client;
 
 import com.google.gson.Gson;
 import com.uber.m3.tally.RootScopeBuilder;
 import com.uber.m3.tally.Scope;
 import com.uber.m3.util.Duration;
-import org.apache.flink.shaded.curator4.org.apache.curator.framework.api.ACLProvider;
-import org.apache.flink.shaded.zookeeper3.org.apache.zookeeper.data.ACL;
 
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**

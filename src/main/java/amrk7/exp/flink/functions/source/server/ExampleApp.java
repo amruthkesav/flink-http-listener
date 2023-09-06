@@ -1,7 +1,6 @@
-package amrk7.exp.flink.functions.source;
+package amrk7.exp.flink.functions.source.server;
 
-import org.apache.flink.api.common.functions.MapFunction;
-import org.apache.flink.api.connector.sink.Sink;
+import amrk7.exp.flink.functions.source.ZkRegistry;
 import org.apache.flink.shaded.curator4.org.apache.curator.framework.api.ACLProvider;
 import org.apache.flink.shaded.zookeeper3.org.apache.zookeeper.data.ACL;
 import org.apache.flink.streaming.api.datastream.DataStream;
@@ -10,7 +9,6 @@ import org.apache.flink.streaming.api.functions.sink.SinkFunction;
 import org.apache.flink.streaming.api.functions.source.SourceFunction;
 
 import java.util.List;
-import java.util.function.Function;
 
 public class ExampleApp {
 
@@ -69,9 +67,11 @@ public class ExampleApp {
                 )
         );
 //        DataStream<String> httpDataStream = env.addSource(new SingleStringSource("hello"));
+//        httpDataStream
+//                .map((MapFunction<String, String>) s -> "Hello " + s)
+//                        .addSink(new ConsoleSink());
         httpDataStream
-                .map((MapFunction<String, String>) s -> "Hello " + s)
-                        .addSink(new ConsoleSink());
+                .addSink(new HttpMetricsSinkFunction());
         env.execute("hello");
 
 // Process the httpDataStream as needed
