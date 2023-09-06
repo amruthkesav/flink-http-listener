@@ -1,5 +1,6 @@
-package amrk7.exp.flink.functions.source;
+package amrk7.exp.flink.functions.source.server;
 
+import amrk7.exp.flink.functions.source.ZkRegistry;
 import org.apache.flink.streaming.api.functions.source.SourceFunction;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.Server;
@@ -13,7 +14,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.function.Function;
 
 public class HttpSourceFunction implements SourceFunction<String> {
     private static final Logger LOG = LoggerFactory.getLogger(HttpSourceFunction.class);

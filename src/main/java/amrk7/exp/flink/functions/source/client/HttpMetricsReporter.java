@@ -1,4 +1,4 @@
-package amrk7.exp.flink.functions.source;
+package amrk7.exp.flink.functions.source.client;
 
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
@@ -7,6 +7,9 @@ import java.net.URL;
 import java.util.List;
 import java.util.Map;
 
+import amrk7.exp.flink.functions.source.MetricType;
+import amrk7.exp.flink.functions.source.server.HttpSourceFunction;
+import amrk7.exp.flink.functions.source.ZkRegistry;
 import com.uber.m3.tally.Buckets;
 import com.uber.m3.tally.Capabilities;
 import com.uber.m3.tally.StatsReporter;
@@ -40,12 +43,6 @@ public class HttpMetricsReporter implements StatsReporter, AutoCloseable {
     private final String topicName;
     private final String serverAddress;
 
-    public enum MetricType {
-        COUNTER,
-        GAUGE,
-        TIMER,
-        HISTOGRAM
-    }
 
     public HttpMetricsReporter(String topicName) {
         this.topicName = topicName;
